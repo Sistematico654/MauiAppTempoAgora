@@ -21,16 +21,13 @@ namespace MauiAppTempoAgora.Services
                 if (resp.IsSuccessStatusCode)
                 {
                     string json = await resp.Content.ReadAsStringAsync();
-
                     var rascunho = JObject.Parse(json);
 
-                    // Verifica se o token existe antes de converter
                     double sunriseSeconds = rascunho["sys"]?["sunrise"]?.Value<double>() ?? 0;
                     double sunsetSeconds = rascunho["sys"]?["sunset"]?.Value<double>() ?? 0;
 
-                    DateTime baseTime = DateTime.UnixEpoch;
-                    DateTime sunrise = baseTime.AddSeconds(sunriseSeconds).ToLocalTime();
-                    DateTime sunset = baseTime.AddSeconds(sunsetSeconds).ToLocalTime();
+                DateTime sunrise = DateTime.UnixEpoch.AddSeconds(sunriseSeconds).ToLocalTime();
+                DateTime sunset = DateTime.UnixEpoch.AddSeconds(sunsetSeconds).ToLocalTime();
 
                     t = new()
                     {
@@ -51,4 +48,3 @@ namespace MauiAppTempoAgora.Services
             }
         }
     }
-}
